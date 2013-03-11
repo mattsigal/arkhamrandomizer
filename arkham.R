@@ -12,10 +12,10 @@ heroes <- function(numplayers = 1, nchar = 2, dunwich = TRUE){
     totchar <- numplayers * nchar
     
     if (dunwich == FALSE & totchar > 16){
-        return(print("Sanity loss: Too many choices!"))
+        return(cat("Sanity loss: Too many choices!"))
     }
     if (dunwich == TRUE & totchar > 24){
-        return(print("Sanity loss: Too many choices!"))
+        return(cat("Sanity loss: Too many choices!"))
     }
     
     select <- sample(chars, totchar)
