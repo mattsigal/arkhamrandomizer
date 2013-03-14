@@ -1,24 +1,39 @@
 # Arkham Horror Investigator and Great Old One Randomizer
 
-heroes <- function(numplayers = 1, nchar = 2, dunwich = TRUE){
+heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, kingsportC = FALSE, innsmouthC = FALSE, calvinC = FALSE){
     n <- c(1:numplayers)
-    base <- c("Amanda Sharpe", "Joe Diamond", "Monterey Jack", "Bob Jenkins", "Carolyn Fern", "Jenny Barnes", 
+
+    basechar <- c("Amanda Sharpe", "Joe Diamond", "Monterey Jack", "Bob Jenkins", "Carolyn Fern", "Jenny Barnes", 
               "Michael McGlen", "Ashcan Pete", "Kate Winthrop", "Gloria Goldberg", "Mandy Thompson", 
               "Vincent Lee", "Darrell Simmons", "Dexter Drake", "Sister Mary", "Harvey Walters")
     dunchar <- c("Mark Harrigan", "Wilson Richards", "Jacqueline Fine", "Diana Stanley", "Marie Lambeau",
                  "Jim Culver", "Rita Young", "Leo Anderson")
-    ifelse(dunwich == TRUE, chars <- c(base, dunchar), chars <- base)
+    kingchar <- c("Charlie Kane", "Daisy Walker", "Lily Chen", "Lola Hayes", "Luke Robinson", "Rex Murphy", 
+                  "Tony Morgan", "Wendy Adams")
+    innchar <- c("Agnes Baker", "Akachi Onyele", "Finn Edwards", "George Barnaby", "Hank Samson", "Minh Thi Phan",
+                 "Norman Withers", "Patrice Hathaway", "Roland Banks", "Silas Marsh", "Skids O'Toole", "Tommy Muldoon",
+                 "Trish Scarborough", "Ursula Downs", "William Yorick", "Zoey Samaras")
+    calchar <- c("Calvin Wright")
+    
+    if(baseC == FALSE & dunwichC == FALSE & kingsportC == FALSE & innsmouthC == FALSE & calvinC == FALSE) {
+        return(cat("Sanity Loss: No investigator sets chosen.\n"))
+    }
+    
+    char <- c()
+    
+    if(baseC == TRUE) char <- c(char, basechar)
+    if(dunwichC == TRUE) char <- c(char, dunchar)
+    if(kingsportC == TRUE) char <- c(char, kingchar)
+    if(innsmouthC == TRUE) char <- c(char, innchar)
+    if(calvinC == TRUE) char <- c(char, calchar)
     
     totchar <- numplayers * nchar
     
-    if (dunwich == FALSE & totchar > 16){
-        return(cat("Sanity loss: Too many choices!"))
-    }
-    if (dunwich == TRUE & totchar > 24){
-        return(cat("Sanity loss: Too many choices!"))
-    }
+    if (length(char) < totchar) return(cat("Sanity Loss: Too few investigators to choose from.\n"))
     
-    select <- sample(chars, totchar)
+    if (totchar > length(char)) return(cat("Sanity Loss: Not enough investigates in the pool.\n"))
+    
+    selecthero <- sample(char, totchar)    
     
     k <- 1
     for (i in 1:length(n)){
@@ -28,31 +43,135 @@ heroes <- function(numplayers = 1, nchar = 2, dunwich = TRUE){
             cat(paste("Player ", i, ", choose between the following investigators: \n", sep = ""))
         }
         for (j in 1:nchar){
-            cat("  ", select[k],"\n")
+            cat("  ", selecthero[k],"\n")
             k <- k + 1
         }
         cat("\n")
     }
 }
 
-GOO <- function(n = 1, dunwich = TRUE){
-    base <- c("Azathoth", "Yig", "Hastur", "Shub-Niggurath", "Ithaqua", "Nyarlathotep", "Yog-Sothoth", "Cthulhu")
+GOO <- function(n = 1, baseA = TRUE, dunwichA = FALSE, kingsportA = FALSE, innsmouthA = FALSE, daolothA = FALSE){
+    baseao <- c("Azathoth", "Yig", "Hastur", "Shub-Niggurath", "Ithaqua", "Nyarlathotep", "Yog-Sothoth", "Cthulhu")
     dunao <- c("Shudde M'ell", "Tsathoggua", "Abhoth", "Glaaki")
-    ifelse(dunwich == TRUE, ao <- c(base, dunao), ao <- base)
-    select <- sample(ao, n)
+    kinao <- c("Atlach-Nacha", "Eihort", "Y'Golonac", "Yibb-Tstll")
+    innao <- c("Bokrug", "Chaugnar Faugn", "Cthugha", "Ghatanothoa", "Nyogtha", "Quachil Uttaus", "Rhan-Tegoth", "Zhar")
+    daoao <- c("Daoloth")
+    
+    if(baseA == FALSE & dunwichA == FALSE & kingsportA == FALSE & innsmouthA == FALSE & daolothA == FALSE) {
+        return(cat("Sanity Loss: Vague Other Worlds (no Ancient One sets chosen).\n"))
+    }
+    
+    ao <- c()
+    
+    if(baseA == TRUE) ao <- c(ao, baseao)
+    if(dunwichA == TRUE) ao <- c(ao, dunao)
+    if(kingsportA == TRUE) ao <- c(ao, kinao)
+    if(innsmouthA == TRUE) ao <- c(ao, innao)
+    if(daolothA == TRUE) ao <- c(ao, daoao)
+    
+    if (length(ao) < n) return(cat("Sanity Loss: Too few Ancient Ones to choose from.\n"))
+    
+    selectao <- sample(ao, n)
+    
     if (n > 1){
-        cat("\nPredestined knowledge! Do you choose to face: \n \n")
+        cat("Predestined knowledge! Do you choose to face: \n \n")
         for (i in 1:n){
-            cat("   ", select[i], "\n")
+            cat("   ", selectao[i], "\n")
         }
     } else {
-    cat("\nThe Great Old One awakening from its slumber is: \n \n", "   ", select, "\n")
+    cat("The Great Old One awakening from its slumber is: \n \n", "   ", selectao, "\n")
     cat("\n")
     }
 }
 
-# EXAMPLES
-# heroes(4)
-# heroes(4,1)
-# GOO(1)
-# GOO(2)
+herald <- function(n = 1, dph = FALSE, dhh = FALSE, kiyh = FALSE, kingh = FALSE,
+                   bgwh = FALSE, innh = FALSE, lth = FALSE){
+    dpher <- c("The Dark Pharaoh")
+    dhher <- c("The Dunwich Horror")
+    kiyher <- c("The King in Yellow")
+    kingher <- c("Ghroth", "Tulzscha")
+    bgwher <- c("The Black Goat of the Woods")
+    innher <- c("Father Dagon", "Mother Hydra")
+    lther <- c("Lurker at the Threshold")
+    
+    if(dph == FALSE & dhh == FALSE & kiyh == FALSE & kingh == FALSE & bgwh == FALSE 
+       & innh == FALSE & lth == FALSE) {
+        return(cat("No Heralds chosen.\n"))
+    }
+    
+    her <- c()
+    
+    if(dph == TRUE) her <- c(her, dpher)
+    if(dhh == TRUE) her <- c(her, dhher)
+    if(kiyh == TRUE) her <- c(her, kiyher)
+    if(kingh == TRUE) her <- c(her, kingher)
+    if(bgwh == TRUE) her <- c(her, bgwher)
+    if(innh == TRUE) her <- c(her, innher)
+    if(lth == TRUE) her <- c(her, lther)
+    
+    if (length(her) > 0 & length(her) < n) return(cat("Sanity Loss: Too few Heralds to choose from.\n"))
+    
+    selecther <- sample(her, n)
+    
+    if (n > 1){
+        cat("Your chosen Heralds are: \n \n")
+        for (i in 1:n){
+            cat("   ", selecther[i], "\n")
+        }
+    } else {
+        cat("The Herald preparing the way for the Ancient One is: \n \n", "   ", selecther, "\n")
+        cat("\n")
+    }
+}
+
+guardians <- function(n = 1, king = FALSE){
+    kingrd <- c("Bast", "Hypnos", "Nodens")
+    
+    if(king == FALSE) {
+        return(cat("No Guardian set chosen.\n"))
+    }
+    
+    guar <- c()
+    
+    if(king == TRUE) guar <- c(guar, kingrd)
+    
+    if (length(guar) > 0 & length(guar) < n) return(cat("Sanity Loss: Too few Guardians to choose from.\n"))
+    
+    selectgd <- sample(guar, n)
+    
+    if (n > 1){
+        cat("Your chosen Guardians are: \n \n")
+        for (i in 1:n){
+            cat("   ", selectgd[i], "\n")
+        }
+    } else {
+        cat("The Guardian assisting in your adventure is: \n \n", "   ", selectgd, "\n")
+        cat("\n")
+    }
+}
+
+institutions <- function(n = 1, misk = FALSE){
+    miskin <- c("Miskatonic University", "Organized Crime", "The Bureau of Investigations")
+    
+    if(misk == FALSE) {
+        return(cat("No Institutions set chosen.\n"))
+    }
+    
+    inst <- c()
+    
+    if(misk == TRUE) inst <- c(inst, miskin)
+    
+    if (length(inst) > 0 & length(inst) < n) return(cat("Sanity Loss: Too few Institutions to choose from.\n"))
+    
+    selectin <- sample(inst, n)
+    
+    if (n > 1){
+        cat("Your chosen Institutions are: \n \n")
+        for (i in 1:n){
+            cat("   ", selectin[i], "\n")
+        }
+    } else {
+        cat("The Institution aiding in your adventure is: \n \n", "   ", selectin, "\n")
+        cat("\n")
+    }
+}
