@@ -1,8 +1,19 @@
 # Arkham Horror Investigator and Great Old One Randomizer
+selecthero <<- "No Investigators chosen."
+selectao <<- "No Great Old Ones chosen."
+selecther <<- "No Heralds chosen."
+selectgd <<- "No Guardians chosen."
+selectin <<- "No Institutions chosen."
+nhero <<- 0
+nplay <<- 0
+
 
 heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, kingsportC = FALSE, innsmouthC = FALSE, calvinC = FALSE){
+    nplay <<- numplayers
+    nhero <<- nchar
     n <- c(1:numplayers)
-
+    selecthero <<- "No Investigators chosen."
+    
     basechar <- c("Amanda Sharpe", "Joe Diamond", "Monterey Jack", "Bob Jenkins", "Carolyn Fern", "Jenny Barnes", 
               "Michael McGlen", "Ashcan Pete", "Kate Winthrop", "Gloria Goldberg", "Mandy Thompson", 
               "Vincent Lee", "Darrell Simmons", "Dexter Drake", "Sister Mary", "Harvey Walters")
@@ -16,6 +27,7 @@ heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, ki
     calchar <- c("Calvin Wright")
     
     if(baseC == FALSE & dunwichC == FALSE & kingsportC == FALSE & innsmouthC == FALSE & calvinC == FALSE) {
+        selecthero <<- "No Investigators chosen."
         return(cat("Sanity Loss: No investigator sets chosen.\n"))
     }
     
@@ -33,7 +45,7 @@ heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, ki
     
     if (totchar > length(char)) return(cat("Sanity Loss: Not enough investigates in the pool.\n"))
     
-    selecthero <- sample(char, totchar)    
+    selecthero <<- sample(char, totchar)    
     
     k <- 1
     for (i in 1:length(n)){
@@ -48,9 +60,11 @@ heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, ki
         }
         cat("\n")
     }
+    
 }
 
 GOO <- function(n = 1, baseA = TRUE, dunwichA = FALSE, kingsportA = FALSE, innsmouthA = FALSE, daolothA = FALSE){
+    selectao <<- "No Ancient Ones chosen."
     baseao <- c("Azathoth", "Yig", "Hastur", "Shub-Niggurath", "Ithaqua", "Nyarlathotep", "Yog-Sothoth", "Cthulhu")
     dunao <- c("Shudde M'ell", "Tsathoggua", "Abhoth", "Glaaki")
     kinao <- c("Atlach-Nacha", "Eihort", "Y'Golonac", "Yibb-Tstll")
@@ -71,7 +85,7 @@ GOO <- function(n = 1, baseA = TRUE, dunwichA = FALSE, kingsportA = FALSE, innsm
     
     if (length(ao) < n) return(cat("Sanity Loss: Too few Ancient Ones to choose from.\n"))
     
-    selectao <- sample(ao, n)
+    selectao <<- sample(ao, n)
     
     if (n > 1){
         cat("Predestined knowledge! Do you choose to face: \n \n")
@@ -86,6 +100,7 @@ GOO <- function(n = 1, baseA = TRUE, dunwichA = FALSE, kingsportA = FALSE, innsm
 
 herald <- function(n = 1, dph = FALSE, dhh = FALSE, kiyh = FALSE, kingh = FALSE,
                    bgwh = FALSE, innh = FALSE, lth = FALSE){
+    selecther <<- "No Heralds chosen."
     dpher <- c("The Dark Pharaoh")
     dhher <- c("The Dunwich Horror")
     kiyher <- c("The King in Yellow")
@@ -96,6 +111,7 @@ herald <- function(n = 1, dph = FALSE, dhh = FALSE, kiyh = FALSE, kingh = FALSE,
     
     if(dph == FALSE & dhh == FALSE & kiyh == FALSE & kingh == FALSE & bgwh == FALSE 
        & innh == FALSE & lth == FALSE) {
+
         return(cat("No Heralds chosen.\n"))
     }
     
@@ -111,7 +127,7 @@ herald <- function(n = 1, dph = FALSE, dhh = FALSE, kiyh = FALSE, kingh = FALSE,
     
     if (length(her) > 0 & length(her) < n) return(cat("Sanity Loss: Too few Heralds to choose from.\n"))
     
-    selecther <- sample(her, n)
+    selecther <<- sample(her, n)
     
     if (n > 1){
         cat("Your chosen Heralds are: \n \n")
@@ -125,6 +141,7 @@ herald <- function(n = 1, dph = FALSE, dhh = FALSE, kiyh = FALSE, kingh = FALSE,
 }
 
 guardians <- function(n = 1, king = FALSE){
+    selectgd <<- "No Guardians chosen."    
     kingrd <- c("Bast", "Hypnos", "Nodens")
     
     if(king == FALSE) {
@@ -137,7 +154,7 @@ guardians <- function(n = 1, king = FALSE){
     
     if (length(guar) > 0 & length(guar) < n) return(cat("Sanity Loss: Too few Guardians to choose from.\n"))
     
-    selectgd <- sample(guar, n)
+    selectgd <<- sample(guar, n)
     
     if (n > 1){
         cat("Your chosen Guardians are: \n \n")
@@ -151,6 +168,7 @@ guardians <- function(n = 1, king = FALSE){
 }
 
 institutions <- function(n = 1, misk = FALSE){
+    selectin <<- "No Institutions chosen."
     miskin <- c("Miskatonic University", "Organized Crime", "The Bureau of Investigations")
     
     if(misk == FALSE) {
@@ -163,7 +181,7 @@ institutions <- function(n = 1, misk = FALSE){
     
     if (length(inst) > 0 & length(inst) < n) return(cat("Sanity Loss: Too few Institutions to choose from.\n"))
     
-    selectin <- sample(inst, n)
+    selectin <<- sample(inst, n)
     
     if (n > 1){
         cat("Your chosen Institutions are: \n \n")
@@ -174,4 +192,53 @@ institutions <- function(n = 1, misk = FALSE){
         cat("The Institution aiding in your adventure is: \n \n", "   ", selectin, "\n")
         cat("\n")
     }
+}
+
+summary <- function(selecthero, selectao, selecther, selectgd, selectin){
+    summout <- list()   
+    summout["Players"] <- list(c(selecthero))
+    summout["Great Old Ones"] <- list(selectao)
+    summout["Heralds"] <- list(selecther)
+    summout["Guardians"] <- list(selectgd)
+    summout["Institutions"] <- list(selectin)
+
+    k <- 1
+    if (nplay >= 1 & nhero >= 1 & summout$Players[[1]] != "No Investigators chosen."){
+        for (i in 1:nplay){
+            cat(paste("Player ", i, " selected investigators: \n", sep = ""))
+            for (j in 1:nhero){
+                cat("   ", summout[[1]][[k]])
+                k <- k + 1
+            }
+            cat("\n\n")
+        }
+    } else {
+        cat(paste("No Investigators chosen.", "\n"))
+        cat("\n")
+    }
+
+    cat(paste("The chosen Great Old Ones are:\n", sep = ""))
+    for (i in 1:length(selectao)){
+        cat(paste("   ",summout[[2]][[i]], "\n"))
+    }
+    cat("\n")
+    
+    cat(paste("The chosen Heralds are:\n", sep = ""))
+    for (i in 1:length(selecther)){
+        cat(paste("   ",summout[[3]][[i]], "\n"))
+    }
+    cat("\n")
+    
+    cat(paste("The chosen Guardians are:\n", sep = ""))
+    for (i in 1:length(selectgd)){
+        cat(paste("   ",summout[[4]][[i]], "\n"))
+    }
+    cat("\n")
+    
+    cat(paste("The chosen Institutions are:\n", sep = ""))
+    for (i in 1:length(selectin)){
+        cat(paste("   ",summout[[5]][[i]], "\n"))
+    }
+    cat("\n")
+
 }

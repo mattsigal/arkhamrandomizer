@@ -11,7 +11,8 @@ shinyUI(pageWithSidebar(
                          "Great Old Ones" = "goo",
                          "Heralds" = "herald",
                          "Guardians" = "guardian",
-                         "Institutions" = "institution"),
+                         "Institutions" = "institution",
+                         "View Summary" = "summ"),
                     selected="none"),
         
         conditionalPanel(

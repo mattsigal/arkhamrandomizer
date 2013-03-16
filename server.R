@@ -22,6 +22,9 @@ shinyServer(function(input, output) {
         if (input$random == "institution"){
             toprint <- institutions(input$insts, input$misk)
         }
+        if (input$random == "summ"){
+            toprint <- summary(selecthero, selectao, selecther, selectgd, selectin)
+        }
         cat(toprint)
     }
     )
