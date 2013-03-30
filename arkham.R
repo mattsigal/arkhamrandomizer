@@ -63,6 +63,61 @@ heroes <- function(numplayers = 1, nchar = 2, baseC = TRUE, dunwichC = FALSE, ki
     
 }
 
+gdetails <- function(numplay = 1){
+    gate <- 0
+    mon <- 0
+    out <- 0
+    
+    if (numplay == 0){
+        return("")   
+    }
+    if (numplay == 1){
+        gate <- 8
+        mon <- 4
+        out <- 7
+    }
+    if (numplay == 2){
+        gate <- 8
+        mon <- 5
+        out <- 6
+    }
+    if (numplay == 3){
+        gate <- 7
+        mon <- 6
+        out <- 5
+    }
+    if (numplay == 4){
+        gate <- 7
+        mon <- 7
+        out <- 4
+    }
+    if (numplay == 5){
+        gate <- 6
+        mon <- 8
+        out <- 3
+    }
+    if (numplay == 6){
+        gate <- 6
+        mon <- 9
+        out <- 2
+    }
+    if (numplay == 7){
+        gate <- 5
+        mon <- 10
+        out <- 1
+    }
+    if (numplay == 8){
+        gate <- 5
+        mon <- 11
+        out <- 0
+    }
+    
+    cat(paste("For this game, you will have a GATE LIMIT of ", gate, ".\n", sep = ""))
+    cat(paste("For this game, you will have a MONSTER LIMIT of ", mon, ".\n", sep = ""))
+    cat(paste("For this game, you will have an OUTSKIRTS LIMIT of ", out, ".\n", sep = ""))
+    cat("\n")
+}
+
 GOO <- function(n = 1, baseA = TRUE, dunwichA = FALSE, kingsportA = FALSE, innsmouthA = FALSE, daolothA = FALSE){
     selectao <<- "No Ancient Ones chosen."
     baseao <- c("Azathoth", "Yig", "Hastur", "Shub-Niggurath", "Ithaqua", "Nyarlathotep", "Yog-Sothoth", "Cthulhu")
@@ -202,6 +257,8 @@ summary <- function(selecthero, selectao, selecther, selectgd, selectin){
     summout["Guardians"] <- list(selectgd)
     summout["Institutions"] <- list(selectin)
 
+    gdetails(nplay)
+    
     k <- 1
     if (nplay >= 1 & nhero >= 1 & summout$Players[[1]] != "No Investigators chosen."){
         for (i in 1:nplay){
@@ -216,7 +273,7 @@ summary <- function(selecthero, selectao, selecther, selectgd, selectin){
         cat(paste("No Investigators chosen.", "\n"))
         cat("\n")
     }
-
+    
     cat(paste("The chosen Great Old Ones are:\n", sep = ""))
     for (i in 1:length(selectao)){
         cat(paste("   ",summout[[2]][[i]], "\n"))
