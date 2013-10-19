@@ -9,6 +9,7 @@ shinyUI(pageWithSidebar(
                     list("Shuffle..." = "none", 
                          "Investigators" = "hero", 
                          "Great Old Ones" = "goo",
+                         "Boards" = "boards",
                          "Heralds" = "herald",
                          "Guardians" = "guardian",
                          "Institutions" = "institution",
@@ -33,6 +34,13 @@ shinyUI(pageWithSidebar(
             checkboxInput("innsmouthA", "Use Innsmouth Horror?", FALSE),
             checkboxInput("daolothA", "Add Daoloth?", FALSE),
             sliderInput("goos", "Number of Ancient Ones to choose from?", min=1, max=5, value=1, step=1)
+        ),
+        conditionalPanel(
+            condition = "input.random == 'boards'",
+            checkboxInput("dunwichB", "Use Dunwich?", FALSE),
+            checkboxInput("kingsportB", "Use Kingsport?", FALSE),
+            checkboxInput("innsmouthB", "Use Innsmouth?", FALSE),
+            sliderInput("numB", "How many expansion boards would you like?", min=0, max=3, value=0, step=1)
         ),
         conditionalPanel(
             condition = "input.random == 'herald'",

@@ -13,6 +13,9 @@ shinyServer(function(input, output) {
         if (input$random == "goo"){
             toprint <- GOO(input$goos, input$baseA, input$dunwichA, input$kingsportA, input$innsmouthA, input$daolothA)
         }
+        if (input$random == "boards"){
+            toprint <- boards(input$numB, input$dunwichB, input$kingsportB, input$innsmouthB)
+        }
         if (input$random == "herald"){
             toprint <- herald(input$hers, input$dph, input$dhh, input$kiyh, input$kingh, input$bgwh, input$innh, input$lth)
         }
@@ -23,7 +26,7 @@ shinyServer(function(input, output) {
             toprint <- institutions(input$insts, input$misk)
         }
         if (input$random == "summ"){
-            toprint <- summary(selecthero, selectao, selecther, selectgd, selectin)
+            toprint <- summary(selecthero, selectao, selectbs, selecther, selectgd, selectin)
         }
         cat(toprint)
     }
